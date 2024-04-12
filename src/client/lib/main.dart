@@ -108,6 +108,7 @@ class _ChatScreenState extends State<ChatScreen> {
     if (_messages.isEmpty) {
       setState(() {
         _messages.add('Empty');
+
       });
     }
   }
