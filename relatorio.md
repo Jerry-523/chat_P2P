@@ -23,6 +23,7 @@ O cliente foi desenvolvido em Flutter, uma estrutura de desenvolvimento de aplic
 
 4. **Tratamento de Mensagens Vazias:** Caso não haja mensagens disponíveis no servidor, o cliente exibe a mensagem "Empty" na lista de mensagens para informar o usuário.
 
+## ----------------------------------------------------------------------------------------------------------
 **Diferenças entre Modelos Síncronos e Assíncronos**
 
 **Modelo Síncrono**:
