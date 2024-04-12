@@ -1,20 +1,27 @@
-**Relatório Técnico: Modelos Síncronos e Assíncronos de Comunicação em um Sistema de Mensagens Distribuído**
+## Relatório: Projeto de Chat P2P
 
-**Introdução**
+### Introdução
+O projeto consiste no desenvolvimento de um sistema de mensagens distribuído, que permite a comunicação entre usuários de forma eficiente e confiável. O sistema é composto por um servidor implementado em Python e um cliente desenvolvido em Flutter. O servidor utiliza o módulo `http.server` do Python para lidar com requisições HTTP, enquanto o cliente Flutter utiliza a biblioteca `http` para se comunicar com o servidor.
 
-Neste relatório, discutiremos os modelos síncronos e assíncronos de comunicação em um sistema de mensagens distribuído. Serão abordadas as implementações desses modelos, suas vantagens e desvantagens, bem como exemplos de cenários nos quais a escolha de um modelo sobre o outro pode impactar no desempenho e eficiência do sistema de mensagens.
+### Funcionamento do Servidor (server.py)
+O servidor foi implementado utilizando a biblioteca padrão `http.server` do Python. Ele é responsável por receber as mensagens dos clientes, armazená-las e fornecê-las quando solicitado. O servidor possui três métodos principais:
 
-**Implementação do Sistema de Mensagens Distribuído**
+1. **do_GET:** Este método é chamado quando o servidor recebe uma requisição HTTP GET. Ele retorna as mensagens armazenadas em formato JSON para o cliente.
+   
+2. **do_POST:** Quando o servidor recebe uma requisição HTTP POST, este método é chamado. Ele é responsável por extrair a mensagem do corpo da requisição, armazená-la e retornar uma confirmação ao cliente.
 
-Para implementar o sistema de mensagens distribuído, utilizamos uma combinação de tecnologias síncronas e assíncronas. Aqui estão os principais componentes e tecnologias utilizadas:
+3. **do_OPTIONS:** Este método trata as requisições OPTIONS, que são usadas para pré-voar requisições cross-origin (CORS). Ele define os cabeçalhos necessários para permitir requisições de origens diferentes.
 
-1. **Comunicação Síncrona**: Utilizamos sockets TCP/IP para estabelecer conexões síncronas entre os clientes e o servidor. Isso permite uma comunicação bidirecional em tempo real, onde as mensagens são enviadas e recebidas de forma sincronizada.
+### Funcionamento do Cliente (client Flutter)
+O cliente foi desenvolvido em Flutter, uma estrutura de desenvolvimento de aplicativos multiplataforma. Ele se comunica com o servidor utilizando requisições HTTP GET e POST. O cliente possui as seguintes funcionalidades:
 
-2. **Comunicação Assíncrona**: Implementamos RPC (Remote Procedure Call) para permitir chamadas de procedimento remoto entre os clientes e o servidor de forma assíncrona. Isso permite que os clientes solicitem operações remotas, como enviar mensagens, sem bloquear a execução do programa principal.
+1. **Exibição de Mensagens:** O cliente exibe todas as mensagens recebidas do servidor em uma lista na interface do usuário.
 
-3. **Interface de Usuário**: Desenvolvemos uma interface de usuário intuitiva utilizando uma combinação de tecnologias web (HTML, CSS, JavaScript) para permitir que os usuários enviem e recebam mensagens de forma eficaz.
+2. **Envio de Mensagens:** Os usuários podem digitar mensagens em um campo de texto e enviá-las ao servidor pressionando um botão.
 
-4. **Mecanismos de Garantia de Integridade e Consistência**: Implementamos mecanismos de checksum e confirmação de entrega para garantir a integridade das mensagens transmitidas. Além disso, utilizamos técnicas de redundância de dados para lidar com possíveis falhas na comunicação.
+3. **Atualização Automática:** O cliente busca periodicamente novas mensagens do servidor para garantir que a lista de mensagens esteja sempre atualizada.
+
+4. **Tratamento de Mensagens Vazias:** Caso não haja mensagens disponíveis no servidor, o cliente exibe a mensagem "Empty" na lista de mensagens para informar o usuário.
 
 **Diferenças entre Modelos Síncronos e Assíncronos**
 
@@ -48,6 +55,6 @@ Para implementar o sistema de mensagens distribuído, utilizamos uma combinaçã
   - Modelo Síncrono: Pode enfrentar problemas de escalabilidade, especialmente se muitos participantes estiverem enviando mensagens ao mesmo tempo, resultando em congestionamento e possíveis bloqueios.
   - Modelo Assíncrono: Seria mais adequado devido à sua maior escalabilidade, permitindo que um grande número de participantes envie e receba mensagens simultaneamente sem bloquear a comunicação.
 
-**Conclusão**
 
-Ambos os modelos síncronos e assíncronos têm suas próprias vantagens e desvantagens, e a escolha entre eles depende dos requisitos específicos do sistema e dos cenários de uso. Em um sistema de mensagens distribuído, a combinação de ambos os modelos pode ser necessária para atender a diferentes necessidades de comunicação e garantir um desempenho eficiente e confiável.
+### Conclusão
+O projeto de Chat P2P implementa um sistema de mensagens distribuído usando Python para o servidor e Flutter para o cliente. Ele demonstra a comunicação entre cliente e servidor por meio de requisições HTTP, permitindo que os usuários troquem mensagens de forma síncrona. Este projeto pode ser expandido para incluir recursos adicionais, como autenticação de usuários, criptografia de mensagens e suporte a múltiplos usuários.
