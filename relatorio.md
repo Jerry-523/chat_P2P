@@ -1,8 +1,8 @@
 ## Relatório: Projeto de Chat P2P
-
+## ---------------------------------------------------------------------------------------------------------------------------
 ### Introdução
 O projeto consiste no desenvolvimento de um sistema de mensagens distribuído, que permite a comunicação entre usuários de forma eficiente e confiável. O sistema é composto por um servidor implementado em Python e um cliente desenvolvido em Flutter. O servidor utiliza o módulo `http.server` do Python para lidar com requisições HTTP, enquanto o cliente Flutter utiliza a biblioteca `http` para se comunicar com o servidor.
-
+## ---------------------------------------------------------------------------------------------------------------------------
 ### Funcionamento do Servidor (server.py)
 O servidor foi implementado utilizando a biblioteca padrão `http.server` do Python. Ele é responsável por receber as mensagens dos clientes, armazená-las e fornecê-las quando solicitado. O servidor possui três métodos principais:
 
@@ -23,7 +23,7 @@ O cliente foi desenvolvido em Flutter, uma estrutura de desenvolvimento de aplic
 
 4. **Tratamento de Mensagens Vazias:** Caso não haja mensagens disponíveis no servidor, o cliente exibe a mensagem "Empty" na lista de mensagens para informar o usuário.
 
-## ----------------------------------------------------------------------------------------------------------
+## ---------------------------------------------------------------------------------------------------------------------------
 **Diferenças entre Modelos Síncronos e Assíncronos**
 
 **Modelo Síncrono**:
@@ -45,6 +45,8 @@ O cliente foi desenvolvido em Flutter, uma estrutura de desenvolvimento de aplic
 - **Desvantagens**:
   - Complexidade de implementação: O modelo assíncrono pode ser mais complexo de implementar e entender, pois envolve o gerenciamento de operações em diferentes tempos e ordens.
   - Menor previsibilidade: Como as operações assíncronas não são executadas em uma ordem previsível, pode ser mais difícil garantir a consistência e integridade dos dados.
+ 
+## ---------------------------------------------------------------------------------------------------------------------------
 
 **Impacto no Desempenho e Eficiência do Sistema de Mensagens**
 
@@ -55,7 +57,7 @@ O cliente foi desenvolvido em Flutter, uma estrutura de desenvolvimento de aplic
 - **Cenário 2: Comunicação em grupo com múltiplos participantes**:
   - Modelo Síncrono: Pode enfrentar problemas de escalabilidade, especialmente se muitos participantes estiverem enviando mensagens ao mesmo tempo, resultando em congestionamento e possíveis bloqueios.
   - Modelo Assíncrono: Seria mais adequado devido à sua maior escalabilidade, permitindo que um grande número de participantes envie e receba mensagens simultaneamente sem bloquear a comunicação.
-
+## ---------------------------------------------------------------------------------------------------------------------------
 
 ### Conclusão
 O projeto de Chat P2P implementa um sistema de mensagens distribuído usando Python para o servidor e Flutter para o cliente. Ele demonstra a comunicação entre cliente e servidor por meio de requisições HTTP, permitindo que os usuários troquem mensagens de forma síncrona. Este projeto pode ser expandido para incluir recursos adicionais, como autenticação de usuários, criptografia de mensagens e suporte a múltiplos usuários.
