@@ -58,4 +58,5 @@
      - Modelo Assíncrono: Seria mais adequado devido à sua maior escalabilidade, permitindo que um grande número de participantes envie e receba mensagens simultaneamente sem bloquear a comunicação.
 
 ### Conclusão
+Ambos os modelos síncronos e assíncronos têm suas próprias vantagens e desvantagens, e a escolha entre eles depende dos requisitos específicos do sistema e dos cenários de uso.
 O projeto de Chat P2P implementa um sistema de mensagens distribuído usando Python para o servidor e Flutter para o cliente. Ele demonstra a comunicação entre cliente e servidor por meio de requisições HTTP, permitindo que os usuários troquem mensagens de forma síncrona. Este projeto pode ser expandido para incluir recursos adicionais, como autenticação de usuários, criptografia de mensagens e suporte a múltiplos usuários.
