@@ -1,8 +1,8 @@
 ## Relatório: Projeto de Chat P2P
-## ---------------------------------------------------------------------------------------------------------------------------
+- 
 ### Introdução
 O projeto consiste no desenvolvimento de um sistema de mensagens distribuído, que permite a comunicação entre usuários de forma eficiente e confiável. O sistema é composto por um servidor implementado em Python e um cliente desenvolvido em Flutter. O servidor utiliza o módulo `http.server` do Python para lidar com requisições HTTP, enquanto o cliente Flutter utiliza a biblioteca `http` para se comunicar com o servidor.
-## ---------------------------------------------------------------------------------------------------------------------------
+- 
 ### Funcionamento do Servidor (server.py)
 O servidor foi implementado utilizando a biblioteca padrão `http.server` do Python. Ele é responsável por receber as mensagens dos clientes, armazená-las e fornecê-las quando solicitado. O servidor possui três métodos principais:
 
