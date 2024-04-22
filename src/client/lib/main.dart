@@ -1,134 +1,125 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
+import 'dart:async';
 
 void main() {
-  runApp(ChatApp());
+  runApp(ClientApp());
 }
 
-class ChatApp extends StatelessWidget {
+class ClientApp extends StatefulWidget {
   @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'Chat App',
-      theme: ThemeData(
-        brightness: Brightness.dark,
-        primarySwatch: Colors.blue,
-        visualDensity: VisualDensity.adaptivePlatformDensity,
-      ),
-      home: ChatScreen(),
-    );
-  }
+  _ClientAppState createState() => _ClientAppState();
 }
 
-class ChatScreen extends StatefulWidget {
-  @override
-  _ChatScreenState createState() => _ChatScreenState();
-}
-
-class _ChatScreenState extends State<ChatScreen> {
-  TextEditingController _textController = TextEditingController();
+class _ClientAppState extends State<ClientApp> {
+  TextEditingController _messageController = TextEditingController();
   List<String> _messages = [];
 
   @override
+  void initState() {
+    super.initState();
+    getMessages();
+    Timer.periodic(Duration(seconds: 5), (timer) {
+      getMessages();
+    });
+  }
+
+  void sendMessage() async {
+    var message = _messageController.text;
+    var url = Uri.parse('http://localhost:3000/messages');
+    var response = await http.post(
+      url,
+      headers: {"Content-Type": "application/json"},
+      body: json.encode({"message": message}),
+    );
+    if (response.statusCode == 200) {
+      getMessages();
+      _messageController.clear();
+    }
+  }
+
+  void getMessages() async {
+    var url = Uri.parse('http://localhost:3000/messages');
+    var response = await http.get(url);
+    if (response.statusCode == 200) {
+      setState(() {
+        _messages = List<String>.from(json.decode(response.body));
+      });
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Chat P2P'),
-      ),
-      body: Column(
-        children: <Widget>[
-          Expanded(
-            child: Container(
-              decoration: BoxDecoration(
-                border: Border.all(color: Colors.grey),
-                borderRadius: BorderRadius.circular(12.0),
-              ),
-              child: ListView.builder(
-                itemCount: _messages.length,
-                itemBuilder: (BuildContext context, int index) {
-                  return ListTile(
-                    title: Text(_messages[index], style: TextStyle(color: Colors.white),),
-                  );
-                },
-              ),
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Row(
-              children: <Widget>[
-                Expanded(
-                  child: Container(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(20.0),
-                      border: Border.all(color: Colors.grey),
-                    ),
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 12.0),
-                      child: TextField(
-                        controller: _textController,
-                        decoration: const InputDecoration(
-                          hintText: 'Digite sua mensagem... ',
-                          border: InputBorder.none,
-                        ),
-                      ),
-                    ),
+    return MaterialApp(
+      home: Scaffold(
+        appBar: AppBar(
+          title: Text('Chat P2P'),
+        ),
+        body: Container(
+          padding: EdgeInsets.all(20),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              Expanded(
+                child: SingleChildScrollView(
+                  child: Column(
+                    children: _messages.map((message) {
+                      return MessageWidget(message: message);
+                    }).toList(),
                   ),
                 ),
-                IconButton(
-                  icon: const Icon(Icons.send),
-                  onPressed: () {
-                    _sendMessage(_textController.text);
-                    setState(() {
-                      _textController.text = '';
-                      _fetchMessages();
-                    });
-                  },
+              ),
+              TextField(
+                controller: _messageController,
+                decoration: InputDecoration(
+                  hintText: 'Digite sua mensagem...',
                 ),
-              ],
-            ),
+                style: TextStyle(color: Colors.white),
+              ),
+              SizedBox(height: 10),
+              ElevatedButton(
+                onPressed: sendMessage,
+                child: Text('Enviar'),
+              ),
+            ],
           ),
-          const SizedBox(height: 5,)
-        ],
+        ),
       ),
     );
   }
+}
 
-  void _fetchMessages() async {
-    final response = await http.get(Uri.parse('http://127.0.0.1:3000'));
-    if (response.statusCode == 200) {
-      setState(() {
-        _messages = List.from(response.body.split('\n'));
-      });
-    } else {
-      print('Falha ao buscar mensagens do servidor: ${response.statusCode}');
-    }
-    if (_messages.isEmpty) {
-      setState(() {
-        _messages.add('Empty');
+class MessageWidget extends StatelessWidget {
+  final String message;
 
-      });
-    }
-  }
+  MessageWidget({required this.message});
 
-  void _sendMessage(String message) async {
-    if (message.isNotEmpty) {
-      final url = Uri.parse('http://localhost:3000');
-      final headers = {'Content-Type': 'application/json'};
-      final body = jsonEncode({'message': message});
-
-      final response = await http.post(url, headers: headers, body: body);
-
-      if (response.statusCode == 200) {
-        setState(() {
-          _messages.insert(0, message);
-          _messages.insert(0, 'Resposta do servidor: ${response.body}');
-        });
-      } else {
-        print('Erro ao enviar mensagem: ${response.reasonPhrase}');
-      }
-    }
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Container(
+          margin: EdgeInsets.only(bottom: 5),
+          child: Text(
+            'Resposta do servidor',
+            style: TextStyle(fontSize: 12, color: Colors.grey),
+          ),
+        ),
+        Container(
+          padding: EdgeInsets.all(10),
+          margin: EdgeInsets.only(bottom: 10),
+          decoration: BoxDecoration(
+            color: Colors.grey.shade900,
+            borderRadius: BorderRadius.circular(12),
+          ),
+          child: Text(
+            message,
+            style: TextStyle(fontSize: 16),
+          ),
+        ),
+      ],
+    );
   }
 }
