@@ -1,16 +1,27 @@
 ## Relatório: Projeto de Chat P2P
 
 ### Introdução
-   O projeto consiste no desenvolvimento de um sistema de mensagens distribuído, que permite a comunicação entre usuários de forma eficiente e confiável. O sistema é composto por um servidor implementado em Python e um cliente desenvolvido em Flutter. O servidor utiliza o módulo `http.server` do Python para lidar com requisições HTTP, enquanto o cliente Flutter utiliza a biblioteca `http` para se comunicar com o servidor.
+   O projeto consiste no desenvolvimento de um sistema de mensagens distribuído, que permite a comunicação entre usuários de forma eficiente e confiável. O sistema é composto por um servidor implementado em Node.js e um cliente desenvolvido em HTML/JavaScript e um cliente desenvolvido em Flutter.. O servidor utiliza o módulo `http` do Node.js para lidar com requisições HTTP, enquanto o cliente utiliza JavaScript para se comunicar com o servidor.
 
-### Funcionamento do Servidor (server.py)
-   O servidor foi implementado utilizando a biblioteca padrão `http.server` do Python. Ele é responsável por receber as mensagens dos clientes, armazená-las e fornecê-las quando solicitado. O servidor possui três métodos principais:
+### Funcionamento do Servidor (server.js)
+   O servidor foi implementado utilizando o Node.js. Ele é responsável por receber as mensagens dos clientes, armazená-las e fornecê-las quando solicitado. O servidor possui três rotas principais:
    
-   1. **do_GET:** Este método é chamado quando o servidor recebe uma requisição HTTP GET. Ele retorna as mensagens armazenadas em formato JSON para o cliente.
+   1. **GET /messages:** Retorna as mensagens armazenadas em formato JSON para o cliente.
       
-   2. **do_POST:** Quando o servidor recebe uma requisição HTTP POST, este método é chamado. Ele é responsável por extrair a mensagem do corpo da requisição, armazená-la e retornar uma confirmação ao cliente.
+   2. **POST /messages:** Recebe uma mensagem do cliente, armazena-a e retorna uma confirmação ao cliente.
    
-   3. **do_OPTIONS:** Este método trata as requisições OPTIONS, que são usadas para pré-voar requisições cross-origin (CORS). Ele define os cabeçalhos necessários para permitir requisições de origens diferentes.
+   3. **OPTIONS /messages:** Trata as requisições OPTIONS, que são usadas para pré-voar requisições cross-origin (CORS). Define os cabeçalhos necessários para permitir requisições de origens diferentes.
+
+### Funcionamento do Cliente (index.html)
+   O cliente foi desenvolvido em HTML/JavaScript. Ele se comunica com o servidor utilizando requisições HTTP GET e POST. O cliente possui as seguintes funcionalidades:
+   
+   1. **Exibição de Mensagens:** O cliente exibe todas as mensagens recebidas do servidor em uma lista na interface do usuário.
+   
+   2. **Envio de Mensagens:** Os usuários podem digitar mensagens em um campo de texto e enviá-las ao servidor pressionando um botão.
+   
+   3. **Atualização Automática:** O cliente busca periodicamente novas mensagens do servidor para garantir que a lista de mensagens esteja sempre atualizada.
+   
+   4. **Tratamento de Mensagens Vazias:** Caso não haja mensagens disponíveis no servidor, o cliente exibe a mensagem "Empty" na lista de mensagens para informar o usuário.
 
 ### Funcionamento do Cliente (client Flutter)
    O cliente foi desenvolvido em Flutter, uma estrutura de desenvolvimento de aplicativos multiplataforma. Ele se comunica com o servidor utilizando requisições HTTP GET e POST. O cliente possui as seguintes funcionalidades:
